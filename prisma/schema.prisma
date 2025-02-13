@@ -22,3 +22,86 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Decimal
+  duration    Int // em minutos
+  imageUrl    String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryImage {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  featured    Boolean  @default(false)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Promotion {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String?
+  startDate   DateTime
+  endDate     DateTime
+  discount    Decimal?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProductCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  products    Product[]
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id              String           @id @default(cuid())
+  name            String
+  description     String
+  price           Decimal
+  imageUrl        String
+  stock           Int              @default(0)
+  category        String? // Mantemos a coluna antiga temporariamente
+  categoryId      String? // Nova coluna como opcional inicialmente
+  productCategory ProductCategory? @relation(fields: [categoryId], references: [id]) // Relação opcional
+  active          Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  imageUrl  String
+  instagram String?
+  facebook  String?
+  linkedin  String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SectionVisibility {
+  id        String   @id @default(cuid())
+  name      String   @unique // 'gallery', 'products', 'promotions', 'services', 'team'
+  active    Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
