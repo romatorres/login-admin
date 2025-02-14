@@ -1,26 +1,19 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-// prisma/schema.prisma
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  password      String
-  name          String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Service {
@@ -28,7 +21,7 @@ model Service {
   name        String
   description String
   price       Decimal
-  duration    Int // em minutos
+  duration    Int
   imageUrl    String?
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -63,10 +56,10 @@ model ProductCategory {
   id          String    @id @default(cuid())
   name        String    @unique
   description String?
-  products    Product[]
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  products    Product[]
 }
 
 model Product {
@@ -76,12 +69,12 @@ model Product {
   price           Decimal
   imageUrl        String
   stock           Int              @default(0)
-  category        String? // Mantemos a coluna antiga temporariamente
-  categoryId      String? // Nova coluna como opcional inicialmente
-  productCategory ProductCategory? @relation(fields: [categoryId], references: [id]) // Relação opcional
+  category        String?
+  categoryId      String?
   active          Boolean          @default(true)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  productCategory ProductCategory? @relation(fields: [categoryId], references: [id])
 }
 
 model TeamMember {
@@ -100,8 +93,7 @@ model TeamMember {
 
 model SectionVisibility {
   id        String   @id @default(cuid())
-  name      String   @unique // 'gallery', 'products', 'promotions', 'services', 'team'
+  name      String   @unique
   active    Boolean  @default(true)
   updatedAt DateTime @updatedAt
 }
-

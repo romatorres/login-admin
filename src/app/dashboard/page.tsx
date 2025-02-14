@@ -1,21 +1,31 @@
 // app/dashboard/page.tsx
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+"use client";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 
-export default async function DashboardPage() {
-  const session = await getServerSession(authOptions);
+export default function Dashboard() {
+  const { data: session } = useSession();
+  const [userName, setUserName] = useState<string | null>(null);
 
-  if (!session) {
-    redirect("/login"); // Redireciona para a página de login se o usuário não estiver autenticado
-  }
+  useEffect(() => {
+    if (session?.user?.name) {
+      setUserName(session.user.name);
+    }
+  }, [session]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md text-center">
-        <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-        <p>Bem-vindo, {session.user?.name}!</p>
-      </div>
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">
+        Bem vindo, {userName || "Carregando..."}!
+      </h1>
+
+      <button
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className="bg-primary hover:bg-primary_hover text-white font-bold py-2 px-4 rounded"
+      >
+        Sair
+      </button>
     </div>
   );
 }
