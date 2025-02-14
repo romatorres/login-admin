@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { compare } from "bcryptjs";
 import { Session } from "next-auth"; // Importe apenas Session
 
 const prisma = new PrismaClient();
@@ -34,7 +34,7 @@ export const authOptions = {
 
           if (user && credentials.password) {
             console.log("4. Comparing passwords");
-            const isValid = await bcrypt.compare(
+            const isValid = await compare(
               credentials.password,
               user.password
             );
