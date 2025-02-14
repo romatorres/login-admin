@@ -1,13 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
-  // Suppress hydration warnings
-  suppressHydrationWarning: true,
+  experimental: {},
 };
 
-export default nextConfig;
+module.exports = nextConfig;

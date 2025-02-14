@@ -1,7 +1,6 @@
 // app/dashboard/page.tsx
 "use client";
 import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
@@ -15,17 +14,39 @@ export default function Dashboard() {
   }, [session]);
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">
-        Bem vindo, {userName || "Carregando..."}!
-      </h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6 text-background">Dashboard</h1>
 
-      <button
-        onClick={() => signOut({ callbackUrl: "/" })}
-        className="bg-primary hover:bg-primary_hover text-white font-bold py-2 px-4 rounded"
-      >
-        Sair
-      </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="bg-amber-100 p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold text-gray-01">Produtos</h2>
+          <p className="text-3xl font-bold text-background mt-2">5 Produtos</p>
+        </div>
+
+        <div className="bg-amber-100 p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold text-gray-01">Serviços</h2>
+          <p className="text-3xl font-bold text-background mt-2">3 Serviços</p>
+        </div>
+
+        <div className="bg-amber-100 p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold text-gray-01">Equipe</h2>
+          <p className="text-3xl font-bold text-background mt-2">4 Times</p>
+        </div>
+
+        <div className="bg-amber-100 p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold text-gray-01">
+            Fotos na Galeria
+          </h2>
+          <p className="text-3xl font-bold text-background mt-2">2 Galerias</p>
+        </div>
+
+        <div className="bg-amber-100 p-6 rounded-lg shadow-md">
+          <h2 className="text-lg font-semibold text-gray-01">
+            Promoções Ativas
+          </h2>
+          <p className="text-3xl font-bold text-background mt-2">1 Promoção</p>
+        </div>
+      </div>
     </div>
   );
 }

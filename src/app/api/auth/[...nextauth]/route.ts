@@ -23,8 +23,6 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          console.log("1. Starting authentication");
-
           if (!credentials?.email || !credentials?.password) {
             console.log("2. Missing credentials");
             return null;
@@ -34,15 +32,12 @@ export const authOptions = {
             where: { email: credentials.email },
           });
 
-          console.log("3. User found:", !!user);
-
           if (user && credentials.password) {
             console.log("4. Comparing passwords");
             const isValid = await bcrypt.compare(
               credentials.password,
               user.password
             );
-            console.log("5. Password valid:", isValid);
 
             if (isValid) {
               return {
@@ -54,7 +49,6 @@ export const authOptions = {
           }
           return null;
         } catch (error) {
-          console.log("Error in auth:", error);
           return null;
         }
       },
